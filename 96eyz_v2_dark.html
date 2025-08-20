@@ -1,0 +1,85 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>96 EYZ — Roth$child</title>
+  <meta name="description" content="Roth$child — Artist · Producer · Storyteller" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600&family=Great+Vibes&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    html,body{scroll-behavior:smooth;}
+    body{font-family:"EB Garamond","Great Vibes",serif;}
+    .reveal{opacity:0; transform: translateY(12px); transition: all .7s ease}
+    .reveal.show{opacity:1; transform: translateY(0)}
+  </style>
+</head>
+<body class="bg-black text-white">
+  <script>
+    // IntersectionObserver to reveal elements on scroll
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('show'); });
+    },{threshold:0.12});
+    window.addEventListener('DOMContentLoaded',()=>{
+      document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+    });
+  </script>
+
+    <main>
+      <section class="reveal flex flex-col md:flex-row max-w-5xl mx-auto px-6 py-20 items-center">
+        <img src="https://drive.google.com/uc?export=view&id=1bSPGsGQAB3WYDalVnW4FaZA730SH4Ft0" alt="Roth$child" class="w-60 h-60 rounded-full object-cover grayscale border border-neutral-700 mb-8 md:mb-0 md:mr-12" />
+        <div>
+          <h1 class="text-5xl font-medium tracking-tight">Roth$child</h1>
+          <p class="mt-2 text-sm uppercase tracking-[0.2em] text-neutral-400">Artist · Producer · Storyteller</p>
+          <div class="mt-6">
+            <a href="https://linktr.ee/RothschildT" target="_blank" rel="noreferrer" class="inline-block border border-white px-5 py-3 rounded-lg hover:bg-white hover:text-black transition">Listen Now</a>
+          </div>
+        </div>
+      </section>
+
+    <section id="release" class="reveal max-w-3xl mx-auto px-6 py-16 border-t border-neutral-800 text-center">
+      <h2 class="text-2xl font-medium italic">In The Eye See You</h2>
+      <p class="mt-3 text-neutral-400 text-sm max-w-md mx-auto">Latest release — stream on your favorite platform below.</p>
+      <div class="mt-6 grid gap-3 sm:grid-cols-2">
+        <a href="https://open.spotify.com/artist/24g9kNkE5XKPFGsnenP1is" target="_blank" rel="noreferrer" class="border border-neutral-600 rounded-lg px-4 py-3 text-sm transition hover:bg-white hover:text-black">Spotify</a>
+<a href="https://music.apple.com/us/album/in-the-eye-see-you/1755154870" target="_blank" rel="noreferrer" class="border border-neutral-600 rounded-lg px-4 py-3 text-sm transition hover:bg-white hover:text-black">Apple Music</a>
+<a href="https://www.youtube.com/watch?v=ll3WojQJtV4&list=OLAK5uy_mfuJdqVvhNlIFfjC0E_tuEhltdLwyFClU" target="_blank" rel="noreferrer" class="border border-neutral-600 rounded-lg px-4 py-3 text-sm transition hover:bg-white hover:text-black">YouTube</a>
+<a href="https://soundcloud.com/user-230254561" target="_blank" rel="noreferrer" class="border border-neutral-600 rounded-lg px-4 py-3 text-sm transition hover:bg-white hover:text-black">SoundCloud</a>
+      </div>
+    </section>
+
+
+<section id="about" class="reveal max-w-3xl mx-auto px-6 py-16 border-t border-neutral-800 text-center">
+  <p class="text-neutral-300 leading-relaxed italic">
+    Hailing from the 509 (Haiti) and the 305 (Miami), Roth$child's (born Rothschild J. Toussaint) creates worlds with lyrical brevity and dynamics instrumentalism.
+    A rap aficionado and historian, Roth$child sees his talent as omnipresent in the genre. Fixated on being versatile, Roth$child infuses a plethora of genres in his
+    music and allows mind to wander and create worlds within sonic measures.
+  </p>
+</section>
+
+
+    <section id="contact" class="reveal max-w-3xl mx-auto px-6 py-16 border-t border-neutral-800 text-center">
+      <h3 class="text-lg font-medium">Contact</h3>
+      <p class="mt-2 text-neutral-400">For bookings, collaborations, or licensing:</p>
+      <a href="mailto:Rothschild859@gmail.com" class="mt-4 inline-block border border-neutral-600 px-5 py-3 rounded-lg transition hover:bg-white hover:text-black">
+        Rothschild859@gmail.com
+      </a>
+      <div class="mt-8 flex justify-center space-x-6">
+        <a href="https://www.instagram.com/rothschildd_/?hl=en" target="_blank" rel="noreferrer" class="text-neutral-400 hover:text-white transition text-sm">Instagram</a>
+<a href="https://x.com/RothschildSFG" target="_blank" rel="noreferrer" class="text-neutral-400 hover:text-white transition text-sm">X (Twitter)</a>
+      </div>
+    </section>
+    <footer class="max-w-3xl mx-auto px-6 py-10 border-t border-neutral-800 text-sm text-neutral-500 text-center">
+      <div class="mb-3 flex justify-center gap-6">
+        <a href="https://www.instagram.com/rothschildd_/?hl=en" target="_blank" rel="noreferrer" class="hover:underline">Instagram</a>
+<a href="https://x.com/RothschildSFG" target="_blank" rel="noreferrer" class="hover:underline">X (Twitter)</a>
+      </div>
+      <div class="italic">© <span id="year"></span> 96 EYZ — Roth$child</div>
+      <script>document.getElementById('year').textContent=new Date().getFullYear();</script>
+    </footer>
+
+    </main>
+    </body></html>
