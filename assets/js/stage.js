@@ -17,7 +17,6 @@ const DRUMS = links.map((a) => ({
   badge: a.dataset.badge || '',
 }));
 const KEYS = ['a', 's', 'd', 'f', 'g'];
-const DAY = body.classList.contains('day'); // version B: black drums on a white stage
 const EMBLEM_SRC = document.querySelector('.emblem-sm')?.src;
 
 /* ------------------------------------------------------------------ sound */
@@ -143,7 +142,7 @@ function init() {
   /* ---- floor: invisible except for shadows and a soft pool of light ---- */
   const floor = new THREE.Mesh(
     new THREE.PlaneGeometry(40, 40),
-    new THREE.ShadowMaterial({ opacity: DAY ? 0.2 : 0.55 }),
+    new THREE.ShadowMaterial({ opacity: 0.55 }),
   );
   floor.rotation.x = -Math.PI / 2;
   floor.position.y = 0.002;
@@ -155,7 +154,6 @@ function init() {
     new THREE.MeshBasicMaterial({ map: poolTexture(), transparent: true, depthWrite: false }),
   );
   pool.rotation.x = -Math.PI / 2;
-  pool.visible = !DAY;
   scene.add(pool);
 
   /* ---- materials ---- */
@@ -304,7 +302,7 @@ function init() {
     camera.aspect = aspect;
     camera.fov = tall ? 38 : 30;
     // looking steeply down, the lacquer mirrors the whole room; dim it so the shells stay black
-    scene.environmentIntensity = DAY ? (tall ? 0.35 : 0.6) : (tall ? 0.2 : 0.42);
+    scene.environmentIntensity = tall ? 0.2 : 0.42;
 
     const spots = tall ? DIE : ARC;
     drums.forEach((g, i) => g.position.set(spots[i][0], 0, spots[i][1]));
