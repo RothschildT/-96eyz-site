@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Wrong drum · Mawon Freedom Arts</title>
+  <meta name="robots" content="noindex">
+  <style>
+    html, body { height: 100%; margin: 0; }
+    body {
+      display: grid; place-items: center; background: #0b0b0b; color: #efede8;
+      font-family: "EB Garamond", "Iowan Old Style", Georgia, serif; text-align: center; padding: 0 16px;
+    }
+    h1 { font-weight: 400; font-size: clamp(56px, 12vw, 140px); line-height: 0.9; margin: 0 0 24px; letter-spacing: -0.02em; }
+    a { color: inherit; font: 500 12px/1 ui-monospace, Menlo, monospace; letter-spacing: 0.08em; text-transform: uppercase;
+        display: inline-block; padding: 14px 20px; border: 1px solid currentColor; text-decoration: none; }
+    a:hover { background: #efede8; color: #0b0b0b; }
+  </style>
+</head>
+<body>
+  <div>
+    <h1>Wrong drum.</h1>
+    <a id="home" href="/">Back to the set</a>
+  </div>
+  <script>
+    // works on a custom domain and on a GitHub Pages project URL (/repo-name/)
+    var m = location.pathname.match(/^\/(-96eyz-site)\//);
+    if (m) document.getElementById('home').href = '/' + m[1] + '/';
+  </script>
+</body>
+</html>

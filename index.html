@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Mawon Freedom Arts</title>
+  <meta name="description" content="Mawon Freedom Arts is a multimedia house for sound, word and image, founded by Roth$child. Home of 96 EYZ.">
+  <meta name="theme-color" content="#070707">
+  <meta property="og:title" content="Mawon Freedom Arts">
+  <meta property="og:description" content="Mawon Freedom Arts is a multimedia house for sound, word and image, founded by Roth$child. Home of 96 EYZ.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://rothschildt.github.io/-96eyz-site/">
+  <meta property="og:image" content="https://rothschildt.github.io/-96eyz-site/assets/img/og.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="assets/fonts/eb-garamond.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="assets/css/site.css">
+  <link rel="modulepreload" href="assets/vendor/three.min.js">
+</head>
+<body class="home">
+  <a class="skip" href="#drums">Skip to the menu</a>
+
+  <header class="home-head">
+    <div>
+      <a class="wordmark" href="./" aria-label="Mawon Freedom Arts, home">
+      <span class="wm-a">MAW<span class="o" aria-hidden="true"></span>N</span>
+      <span class="wm-b">freedom arts</span>
+      </a>
+      <p class="verbs label"><span>drum</span><span>write</span><span>record</span><span>shoot</span><span>gather</span></p>
+    </div>
+    <div class="head-right label">
+      <a class="eyz-link" href="music/"><img class="emblem-sm" src="assets/img/96eyz-emblem.png" alt="" width="22" height="22">96 EYZ</a>
+      <button class="sound-toggle label" type="button" aria-pressed="true" aria-label="Sound" hidden>
+        <span class="bars" aria-hidden="true"><i></i><i></i><i></i></span><span class="txt">Sound on</span>
+      </button>
+    </div>
+  </header>
+
+  <p class="masthead" aria-hidden="true">Mawon</p>
+
+  <canvas id="stage" aria-hidden="true"></canvas>
+
+  <!-- Each link is a drum, left to right. The 3D set reads href, size (data-scale) and pitch (data-freq) from here. -->
+  <nav id="drums" class="drum-nav" aria-label="Main">
+    <a href="about/" data-drum="0" data-scale="0.95" data-freq="294"><span class="dl-en">About</span> <span class="dl-kr">istwa</span></a>
+    <a href="writing/" data-drum="1" data-scale="1.0" data-freq="262" data-paper><span class="dl-en">Writing</span> <span class="dl-kr">ekri</span></a>
+    <a href="music/" data-drum="2" data-scale="1.14" data-freq="196" data-badge="emblem"><span class="dl-en">Music</span> <span class="dl-kr">mizik</span></a>
+    <a href="photos/" data-drum="3" data-scale="1.0" data-freq="247"><span class="dl-en">Photos</span> <span class="dl-kr">foto</span></a>
+    <a href="contact/" data-drum="4" data-scale="0.95" data-freq="330"><span class="dl-en">Contact</span> <span class="dl-kr">pale</span></a>
+  </nav>
+
+  <footer class="home-foot">
+    <p class="def"><b>mawon</b> <i>(Kreyòl)</i> means maroon: people who freed themselves and built their own world in the hills. This is a house for sound, word and image.</p>
+    <p class="hint label"><span class="pick">Pick a drum.</span> <span class="keys">Or play them <kbd>A</kbd><kbd>S</kbd><kbd>D</kbd><kbd>F</kbd><kbd>G</kbd></span></p>
+  </footer>
+
+  <div class="curtain" aria-hidden="true"></div>
+
+  <script type="importmap">
+    { "imports": { "three": "./assets/vendor/three.min.js" } }
+  </script>
+  <script type="module" src="assets/js/stage.js"></script>
+</body>
+</html>
