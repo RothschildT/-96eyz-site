@@ -10,15 +10,15 @@ const curtain = document.querySelector('.curtain');
 const soundBtn = document.querySelector('.sound-toggle');
 const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-// tumba on the left, quinto on the right, like a real set
-const DRUMS = [
-  { scale: 1.04, freq: 196 },
-  { scale: 1.08, freq: 220 },
-  { scale: 1.00, freq: 262 },
-  { scale: 0.96, freq: 294 },
-  { scale: 0.92, freq: 330 },
-];
+// size, pitch and badge for each drum come from its link, so the HTML stays the one place to edit
+const DRUMS = links.map((a) => ({
+  scale: parseFloat(a.dataset.scale) || 1,
+  freq: parseFloat(a.dataset.freq) || 262,
+  badge: a.dataset.badge || '',
+}));
 const KEYS = ['a', 's', 'd', 'f', 'g'];
+const DAY = body.classList.contains('day'); // version B: black drums on a white stage
+const EMBLEM_SRC = document.querySelector('.emblem-sm')?.src;
 
 /* ------------------------------------------------------------------ sound */
 const sound = (() => {
@@ -143,7 +143,7 @@ function init() {
   /* ---- floor: invisible except for shadows and a soft pool of light ---- */
   const floor = new THREE.Mesh(
     new THREE.PlaneGeometry(40, 40),
-    new THREE.ShadowMaterial({ opacity: 0.55 }),
+    new THREE.ShadowMaterial({ opacity: DAY ? 0.2 : 0.55 }),
   );
   floor.rotation.x = -Math.PI / 2;
   floor.position.y = 0.002;
@@ -155,6 +155,7 @@ function init() {
     new THREE.MeshBasicMaterial({ map: poolTexture(), transparent: true, depthWrite: false }),
   );
   pool.rotation.x = -Math.PI / 2;
+  pool.visible = !DAY;
   scene.add(pool);
 
   /* ---- materials ---- */
@@ -164,6 +165,9 @@ function init() {
   });
   const chrome = new THREE.MeshStandardMaterial({ color: 0xd8d8d8, metalness: 1, roughness: 0.18 });
   const rubber = new THREE.MeshStandardMaterial({ color: 0x050505, roughness: 0.9 });
+
+  const emblemTex = EMBLEM_SRC ? new THREE.TextureLoader().load(EMBLEM_SRC) : null;
+  if (emblemTex) { emblemTex.colorSpace = THREE.SRGBColorSpace; emblemTex.anisotropy = 8; }
 
   /* ---- one conga ---- */
   const H = 2.0;
@@ -247,6 +251,24 @@ function init() {
       g.add(plate);
     }
 
+    // a printed badge on the front of the shell, like a maker's logo (the 96 EYZ emblem on Music)
+    if (DRUMS[i].badge === 'emblem' && emblemTex) {
+      const yMid = 1.12, half = 0.27, pts = [];
+      for (let k = 0; k <= 16; k++) {
+        const y = yMid - half + (k / 16) * half * 2;
+        pts.push(new THREE.Vector2(shellR(y) + 0.003, y));
+      }
+      const arc = (half * 2) / shellR(yMid);
+      const badge = new THREE.Mesh(
+        new THREE.LatheGeometry(pts, 24, -arc / 2, arc),
+        new THREE.MeshStandardMaterial({
+          map: emblemTex, transparent: true, depthWrite: false, roughness: 0.35, color: 0xe4e2dc,
+          side: THREE.DoubleSide, polygonOffset: true, polygonOffsetFactor: -2,
+        }),
+      );
+      g.add(badge);
+    }
+
     // keep the flat head positions so ripples can be layered on top
     const pos = headGeo.attributes.position;
     const base = Float32Array.from(pos.array);
@@ -265,8 +287,8 @@ function init() {
   const pickables = drums.flatMap((g) => g.children);
 
   /* ---- layouts: an arc when wide, the five-spot of a die when tall ---- */
-  const ARC = [-58, -29, 0, 29, 58].map((deg) => {
-    const a = THREE.MathUtils.degToRad(deg), R = 2.35;
+  const ARC = [-62, -31, 0, 31, 62].map((deg) => {
+    const a = THREE.MathUtils.degToRad(deg), R = 2.4;
     return [R * Math.sin(a), -R + R * Math.cos(a)];
   });
   const DIE = [[-0.74, -0.92], [0.74, -0.92], [0, 0], [-0.74, 0.92], [0.74, 0.92]];
@@ -282,7 +304,7 @@ function init() {
     camera.aspect = aspect;
     camera.fov = tall ? 38 : 30;
     // looking steeply down, the lacquer mirrors the whole room; dim it so the shells stay black
-    scene.environmentIntensity = tall ? 0.2 : 0.42;
+    scene.environmentIntensity = DAY ? (tall ? 0.35 : 0.6) : (tall ? 0.2 : 0.42);
 
     const spots = tall ? DIE : ARC;
     drums.forEach((g, i) => g.position.set(spots[i][0], 0, spots[i][1]));
@@ -295,14 +317,14 @@ function init() {
     const halfW = Math.max(...spots.map(([x]) => Math.abs(x - cx))) + 0.62;
     const vHalf = THREE.MathUtils.degToRad(camera.fov / 2);
     const hHalf = Math.atan(Math.tan(vHalf) * aspect);
-    const margin = tall ? 1.04 : 1.45;
+    const margin = tall ? 1.04 : 1.14;
     const distW = (halfW * margin) / Math.tan(hHalf);
     const distH = 1.9 / Math.tan(vHalf);
 
     view.elev = THREE.MathUtils.degToRad(tall ? 54 : 33);
     view.dist = Math.max(distW, tall ? 0 : distH);
     // aim a little above the drums so the set sits low in the frame, under the masthead
-    view.target.set(cx, tall ? 1.3 : 1.75, cz + (tall ? 0.1 : 0));
+    view.target.set(cx, tall ? 1.3 : 1.38, cz + (tall ? 0.1 : 0));
 
     const span = Math.max(halfW * 2.6, 6);
     pool.scale.set(span, span * (tall ? 1.1 : 0.7), 1);

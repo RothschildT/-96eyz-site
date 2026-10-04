@@ -2,41 +2,58 @@
 
 The website for Mawon Freedom Arts, a multimedia house founded by Roth$child. 96 EYZ is its music arm.
 
-The home page is a set of five congas. Click a drumhead to go through it. You can also play the drums with the **A S D F G** keys.
+**Live:** https://rothschildt.github.io/-96eyz-site/
 
-Plain static HTML, CSS and JS. No build step.
+The home page is a half circle of five congas with Music in the middle. Click a drumhead to go through it. You can also play the drums with the **A S D F G** keys.
+
+## Two versions of the home page
+
+- **A, the night stage:** `/` (black). This is the main one.
+- **B, the day stage:** `/day/` (white stage, black drums). Not linked anywhere and hidden from search engines. Delete the `day/` folder once you've picked.
+
+## How it's put together
+
+Plain static HTML, CSS and JS. No framework.
 
 ```
-index.html            home: the 3D conga set
+index.html            home, version A
+day/                  home, version B
 about/ music/ writing/ photos/ contact/
-brand/                brand sheet: ways to write the name (not linked in the nav)
+writing/writing-my-wrongs/   the full piece, word for word
+brand/                brand sheet: wordmark, seal, 96 EYZ emblem (not linked in the nav)
 404.html              "Wrong drum."
 assets/css/site.css   all styles
 assets/js/stage.js    the 3D set: drums, sound, ripple, dive transition
 assets/js/site.js     inner pages: lightbox, contact form, footer year
 assets/vendor/        three.js r186 (minified) + RoomEnvironment
 assets/fonts/         EB Garamond + IBM Plex Mono (self-hosted, OFL)
-assets/img/           photos (black and white), og.jpg share image
+assets/img/           photos (black and white), 96 EYZ emblem, og.jpg share image
+tools/build.py        builds every page from shared templates
+tools/pieces/         writing, stored word for word as JSON
 ```
 
-## Put it online (GitHub Pages)
+To change something that appears on every page (the header, the footer, the drum labels), edit `tools/build.py`, then run:
 
-1. Merge this branch into `main`.
-2. In the repo, go to **Settings → Pages → Build and deployment**. Set Source to **Deploy from a branch**, branch `main`, folder `/ (root)`.
-3. About a minute later the site is live at `https://rothschildt.github.io/-96eyz-site/`.
+```
+python3 tools/build.py
+```
 
-To use your own domain (e.g. `mawonfreedomarts.com`), add it under **Settings → Pages → Custom domain** and point your DNS at GitHub. All paths are relative, so the site works either way.
+## Publishing
+
+GitHub Pages serves the site from the `gh-pages` branch. The `Publish site` workflow copies `main` to `gh-pages` on every push, so merging a pull request into `main` puts it live within a minute or two.
+
+To use your own domain (e.g. `mawonfreedomarts.com`), add it under **Settings → Pages → Custom domain** and point your DNS at GitHub. Then update `SITE` at the top of `tools/build.py` so link previews use the new address.
 
 ## Contact form
 
-The form sends through [FormSubmit](https://formsubmit.co), with no account and no server. **The first time someone submits it, FormSubmit emails Rothschild859@gmail.com an activation link.** Send yourself a test message right after going live and click that link. If a send fails, the visitor gets a link that opens a prefilled email instead.
+The form sends through [FormSubmit](https://formsubmit.co), with no account and no server. **The first time someone submits it, FormSubmit emails Rothschild859@gmail.com an activation link.** Send yourself a test message and click that link. If a send ever fails, the visitor gets a link that opens a prefilled email instead.
 
 ## Adding content
 
-- **Writing:** pieces link out to [Substack](https://rothschild2000.substack.com). `writing/index.html` has a commented template: copy it above the newest entry, then move the `lead` class (the big headline treatment) onto the new piece.
-- **Photos:** put the image in `assets/img/`, then copy a `<figure class="shot">` block in `photos/index.html`. Add `wide` to the class for a full-width photo.
-- **Music:** streaming links and the Spotify embed are in `music/index.html`.
-- **Drums:** labels and links live in the `<nav id="drums">` list in `index.html`. Size and pitch of each drum are in `DRUMS` at the top of `assets/js/stage.js`.
+- **Writing:** add a JSON file to `tools/pieces/`, copying `writing-my-wrongs.json` as a template, and run the build. The newest piece leads the Writing page and gets its own reading page.
+- **Photos:** put the image in `assets/img/` (a full size and a `-sm` size), then add a `shot(...)` line to the Photos section of `tools/build.py`.
+- **Music:** streaming links and the Spotify embed are in the Music section of `tools/build.py`.
+- **Drums:** labels, order, size (`scale`) and pitch (`freq`) are in `DRUM_LINKS` in `tools/build.py`.
 
 ## Preview locally
 

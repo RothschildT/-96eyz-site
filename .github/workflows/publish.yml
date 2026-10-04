@@ -1,0 +1,25 @@
+# GitHub Pages serves this site from the gh-pages branch.
+# Every push to main is mirrored there, so merging a pull request publishes it.
+name: Publish site
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: publish-site
+  cancel-in-progress: true
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Mirror main to gh-pages
+        run: git push --force origin HEAD:refs/heads/gh-pages

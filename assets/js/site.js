@@ -47,7 +47,7 @@ if (form) {
 
   const mailtoFallback = (data) => {
     const subject = `${data.topic}: ${data.name}`;
-    const bodyText = `${data.message}\n\n— ${data.name} (${data.email})`;
+    const bodyText = `${data.message}\n\nFrom ${data.name} (${data.email})`;
     return `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(bodyText)}`;
   };
 
