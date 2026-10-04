@@ -33,7 +33,7 @@ The form sends through [FormSubmit](https://formsubmit.co), with no account and 
 
 ## Adding content
 
-- **Writing:** `writing/index.html` has a commented template for an entry. Copy it, fill it in, and delete the "first pieces are in the edit" block.
+- **Writing:** pieces link out to [Substack](https://rothschild2000.substack.com). `writing/index.html` has a commented template: copy it above the newest entry, then move the `lead` class (the big headline treatment) onto the new piece.
 - **Photos:** put the image in `assets/img/`, then copy a `<figure class="shot">` block in `photos/index.html`. Add `wide` to the class for a full-width photo.
 - **Music:** streaming links and the Spotify embed are in `music/index.html`.
 - **Drums:** labels and links live in the `<nav id="drums">` list in `index.html`. Size and pitch of each drum are in `DRUMS` at the top of `assets/js/stage.js`.
