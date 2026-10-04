@@ -23,6 +23,7 @@ YOUTUBE = 'https://www.youtube.com/watch?v=ll3WojQJtV4&list=OLAK5uy_mfuJdqVvhNlI
 SOUNDCLOUD = 'https://soundcloud.com/user-230254561'
 LINKTREE = 'https://linktr.ee/RothschildT'
 INSTAGRAM = 'https://www.instagram.com/rothschildd_/'
+INSTAGRAM_PHOTO = 'https://www.instagram.com/capturedbyrothschild/'  # photography account
 X = 'https://x.com/RothschildSFG'
 SUBSTACK = 'https://rothschild2000.substack.com'
 EMAIL = 'Rothschild859@gmail.com'
@@ -107,9 +108,9 @@ def page(slug, title, desc, body, body_class='', depth=1, path=None):
     <a class="foot-seal" href="{p}" aria-label="Mawon Freedom Arts, home">{seal('foot-seal-path', 'seal', decorative=True)}</a>
     <span>Mawon Freedom Arts · home of 96 EYZ · 509 / 305</span>
     <span class="socials">
-      <a href="{INSTAGRAM}" target="_blank" rel="noopener">Instagram</a>
+      <span class="pair-links"><a href="{INSTAGRAM}" target="_blank" rel="noopener">Instagram</a><span class="slash" aria-hidden="true">/</span><a href="{INSTAGRAM_PHOTO}" target="_blank" rel="noopener">Captured by Rothschild</a></span>
       <a href="{X}" target="_blank" rel="noopener">X</a>
-      <a href="{SPOTIFY}" target="_blank" rel="noopener">Spotify</a>
+      <a href="{LINKTREE}" target="_blank" rel="noopener">Linktree</a>
       <a href="{SUBSTACK}" target="_blank" rel="noopener">Substack</a>
     </span>
     <span>© <span data-year>2026</span></span>
@@ -140,19 +141,17 @@ DRUM_LINKS = [
 ]
 
 
-def home(p='', variant='night'):
-    day = variant == 'day'
+def home(p=''):
     links = '\n    '.join(
         f'<a href="{p}{s}/" data-drum="{i}" data-scale="{scale}" data-freq="{freq}"{extra}>'
         f'<span class="dl-en">{en}</span> <span class="dl-kr">{kr}</span></a>'
         for i, (s, en, kr, scale, freq, extra) in enumerate(DRUM_LINKS)
     )
-    robots = '\n  <meta name="robots" content="noindex">' if day else ''
     desc = ('Mawon Freedom Arts is a multimedia house for sound, word and image, founded by Roth$child. '
             'Home of 96 EYZ.')
-    return head('Mawon Freedom Arts', desc, p, 'day/' if day else '', '#f2f0eb' if day else '#070707',
-                f'\n  <link rel="modulepreload" href="{p}assets/vendor/three.min.js">{robots}') + f'''
-<body class="home{' day' if day else ''}">
+    return head('Mawon Freedom Arts', desc, p, '', '#070707',
+                f'\n  <link rel="modulepreload" href="{p}assets/vendor/three.min.js">') + f'''
+<body class="home">
   <a class="skip" href="#drums">Skip to the menu</a>
 
   <header class="home-head">
@@ -206,7 +205,7 @@ ABOUT = title_block('About', 'istwa', 1) + f'''
              alt="Roth$child in a worn canvas work jacket, locs falling past the shoulders, against pale clapboard siding.">
       </figure>
       <div>
-        <p class="lede">Roth$child makes music, writes and takes photographs. Mawon Freedom Arts is home base for all three.</p>
+        <p class="lede">Rothschild's life is defined by art in all its forms: music, writing and photography. Mawon Freedom Arts is home base for all three.</p>
         <p class="label muted tagline">{TAGLINE}</p>
         <div class="prose">
           <p>{BIO}</p>
@@ -242,13 +241,19 @@ ABOUT = title_block('About', 'istwa', 1) + f'''
     <section class="block split">
       <div class="why-mark">
         <span class="label muted">Why mawon</span>
-        {seal('about-seal-path', 'seal seal-lg')}
+        <figure>
+          <img src="../assets/img/negmawon-visit-sm.jpg" srcset="../assets/img/negmawon-visit-sm.jpg 800w, ../assets/img/negmawon-visit.jpg 1500w"
+               sizes="(max-width: 860px) 100vw, 40vw" width="800" height="1067" loading="lazy"
+               alt="Roth$child standing in front of the Nèg Mawon statue in Port-au-Prince under a clear sky.">
+          <figcaption class="label">Roth$child at Nèg Mawon, Port-au-Prince. Christmas Day, 2019.</figcaption>
+        </figure>
       </div>
       <div>
         <p class="lede">In Haitian Kreyòl, <i>mawon</i> means maroon. The maroons were people who freed themselves from slavery and built their own communities in the mountains.</p>
         <div class="prose">
-          <p>In Port-au-Prince there is a statue called Nèg Mawon, the Unknown Maroon. He blows a conch shell, a broken chain at his ankle, calling people to freedom. Mawon Freedom Arts takes its name from that call: make the work on your own terms, and make enough noise that others can find it.</p>
+          <p>In Port-au-Prince there is a statue called Nèg Mawon, the Unknown Maroon. He blows a conch shell, a broken chain at his ankle, calling people to freedom. Mawon Freedom Arts takes its name from that call: make the work on your own terms, and break every chain.</p>
         </div>
+        {seal('about-seal-path', 'seal seal-end')}
       </div>
     </section>'''
 
@@ -282,6 +287,27 @@ MUSIC = title_block('Music', 'mizik', 2) + f'''
       </div>
     </section>
 
+    <section class="block origins">
+      <div>
+        <span class="label muted">From the start</span>
+        <p class="lede">It started at a toy piano and never stopped.</p>
+      </div>
+      <div class="pair">
+        <figure>
+          <img src="../assets/img/first-keys-sm.jpg" srcset="../assets/img/first-keys-sm.jpg 800w, ../assets/img/first-keys.jpg 1333w"
+               sizes="(max-width: 640px) 100vw, 420px" width="800" height="1200" loading="lazy"
+               alt="Roth$child as a small child, standing at a toy grand piano with both hands on the keys.">
+          <figcaption class="label">First keys</figcaption>
+        </figure>
+        <figure>
+          <img src="../assets/img/drum-room-sm.jpg" srcset="../assets/img/drum-room-sm.jpg 800w, ../assets/img/drum-room.jpg 1500w"
+               sizes="(max-width: 640px) 100vw, 420px" width="800" height="1067" loading="lazy"
+               alt="Roth$child with arms open in a room packed with congas, djembes and drum kits.">
+          <figcaption class="label">A room full of drums</figcaption>
+        </figure>
+      </div>
+    </section>
+
     <section class="block">
       <iframe class="embed" title="Roth$child on Spotify" loading="lazy"
               src="https://open.spotify.com/embed/artist/24g9kNkE5XKPFGsnenP1is?utm_source=generator&amp;theme=0"
@@ -308,7 +334,7 @@ def writing_index():
     return title_block('Writing', 'ekri', 3) + f'''
 
     <section class="block">
-      <p class="lede">Essays, verse, liner notes and dispatches from inside the house.</p>
+      <p class="lede">Essays, verses, liner notes and dispatches from inside the house.</p>
     </section>
 
     <section class="feature">
@@ -362,14 +388,15 @@ def reading(piece):
 
 # ---------------------------------------------------------------- photos
 
-def shot(name, w, h, caption, alt, cls='shot', sizes='(max-width: 640px) 100vw, 620px', lazy=True):
-    big = {'congas': 1600, 'portrait': 1140, 'kit': 1600, 'beach': 1200}[name]
+def shot(name, w, h, caption, alt, cls='shot', sizes='(max-width: 640px) 100vw, 620px', lazy=True, pos=''):
+    big = {'congas': 1600, 'portrait': 1140, 'kit': 1600, 'beach': 1200, 'negmawon': 1600}[name]
+    style = f' style="object-position: {pos}"' if pos else ''  # where to crop when the slot is narrower than the photo
     sm = 700 if name == 'beach' else 800
     lz = ' loading="lazy"' if lazy else ''
     return f'''        <figure class="{cls}">
           <button type="button" data-full="../assets/img/{name}.jpg" aria-label="Open photo: {caption.split(' · ')[-1].lower()}">
             <img src="../assets/img/{name}-sm.jpg" srcset="../assets/img/{name}-sm.jpg {sm}w, ../assets/img/{name}.jpg {big}w"
-                 sizes="{sizes}" width="{w}" height="{h}"{lz}
+                 sizes="{sizes}" width="{w}" height="{h}"{lz}{style}
                  alt="{alt}">
           </button>
           <figcaption class="label">{caption}</figcaption>
@@ -381,10 +408,11 @@ PHOTOS = title_block('Photos', 'foto', 4) + f'''
     <section class="block">
       <div class="shots">
 {shot('congas', 800, 533, '01 · At the congas', 'Roth$child at a row of three congas, eyes closed, hands blurred mid-stroke.', 'shot wide', '(max-width: 1240px) 100vw, 1240px', lazy=False)}
-{shot('portrait', 800, 1053, '02 · Portrait', 'Roth$child in a worn canvas work jacket against pale clapboard siding, looking off to the side.', 'shot third', '(max-width: 640px) 100vw, 400px')}
-{shot('kit', 800, 1067, '03 · Behind the kit', 'Roth$child seated behind a drum kit with congas and chimes in the foreground.', 'shot third', '(max-width: 640px) 100vw, 400px')}
+{shot('kit', 800, 1067, '02 · Behind the kit', 'Roth$child seated behind a drum kit with congas and chimes in the foreground.', 'shot third', '(max-width: 640px) 100vw, 400px')}
+{shot('negmawon', 800, 826, '03 · Nèg Mawon, Port-au-Prince, 2019', 'The Nèg Mawon statue in Port-au-Prince: a kneeling figure blowing a conch shell, one leg stretched out with a broken shackle at the ankle.', 'shot third', '(max-width: 640px) 100vw, 400px', pos='72% 50%')}
 {shot('beach', 700, 992, '04 · On the beach, writing', 'Polaroid of Roth$child on the beach, sitting in front of a small tent and writing in a notebook.', 'shot third', '(max-width: 640px) 100vw, 400px')}
       </div>
+      <p class="label muted more-photos">More photos on Instagram: <a class="arrow-link" href="{INSTAGRAM_PHOTO}" target="_blank" rel="noopener">@capturedbyrothschild ↗</a></p>
     </section>
 
     <dialog class="lightbox" aria-label="Photo">
@@ -403,7 +431,7 @@ CONTACT = title_block('Contact', 'pale', 5) + f'''
         <p class="lede">Bookings, collaborations, licensing, press, or just something to say. Talk to me.</p>
         <div class="rows direct">
           <div class="row"><span class="label">Email</span><div><a href="mailto:{EMAIL}">{EMAIL}</a></div></div>
-          <div class="row"><span class="label">Instagram</span><div><a href="{INSTAGRAM}" target="_blank" rel="noopener">@rothschildd_</a></div></div>
+          <div class="row"><span class="label">Instagram</span><div><a href="{INSTAGRAM}" target="_blank" rel="noopener">@rothschildd_</a><span class="slash" aria-hidden="true">/</span><a href="{INSTAGRAM_PHOTO}" target="_blank" rel="noopener">@capturedbyrothschild</a></div></div>
           <div class="row"><span class="label">X</span><div><a href="{X}" target="_blank" rel="noopener">@RothschildSFG</a></div></div>
           <div class="row"><span class="label">Substack</span><div><a href="{SUBSTACK}" target="_blank" rel="noopener">rothschild2000</a></div></div>
         </div>
@@ -494,13 +522,12 @@ def write(rel, text):
     print('wrote', rel)
 
 
-write('index.html', home('', 'night'))
-write('day/index.html', home('../', 'day'))
+write('index.html', home())
 
 PAGES = [
     ('about', 'About', 'Roth$child (born Rothschild J. Toussaint) and the story behind Mawon Freedom Arts.', ABOUT, ''),
     ('music', 'Music', '96 EYZ, the music arm of Mawon Freedom Arts. Records by Roth$child.', MUSIC, ''),
-    ('writing', 'Writing', 'Essays, verse, liner notes and dispatches from Mawon Freedom Arts.', writing_index(), 'paper'),
+    ('writing', 'Writing', 'Essays, verses, liner notes and dispatches from Mawon Freedom Arts.', writing_index(), 'paper'),
     ('photos', 'Photos', 'Photographs from Mawon Freedom Arts.', PHOTOS, ''),
     ('brand', 'Marks', 'The Mawon Freedom Arts wordmark and seal, and the 96 EYZ emblem.', BRAND, ''),
     ('contact', 'Contact', 'Bookings, collaborations, licensing and press for Mawon Freedom Arts and 96 EYZ.', CONTACT, ''),

@@ -6,18 +6,12 @@ The website for Mawon Freedom Arts, a multimedia house founded by Roth$child. 96
 
 The home page is a half circle of five congas with Music in the middle. Click a drumhead to go through it. You can also play the drums with the **A S D F G** keys.
 
-## Two versions of the home page
-
-- **A, the night stage:** `/` (black). This is the main one.
-- **B, the day stage:** `/day/` (white stage, black drums). Not linked anywhere and hidden from search engines. Delete the `day/` folder once you've picked.
-
 ## How it's put together
 
 Plain static HTML, CSS and JS. No framework.
 
 ```
-index.html            home, version A
-day/                  home, version B
+index.html            home: the drum set
 about/ music/ writing/ photos/ contact/
 writing/writing-my-wrongs/   the full piece, word for word
 brand/                brand sheet: wordmark, seal, 96 EYZ emblem (not linked in the nav)
