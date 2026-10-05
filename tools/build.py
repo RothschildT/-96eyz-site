@@ -13,7 +13,7 @@ import json
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-SITE = 'https://rothschildt.github.io/-96eyz-site/'  # used for share previews; change if you add a custom domain
+SITE = 'https://mawonfreedomarts.com/'  # used for share previews, canonical links and the sitemap
 
 NAV = [('about', 'About'), ('music', 'Music'), ('writing', 'Writing'), ('photos', 'Photos'), ('contact', 'Contact')]
 
