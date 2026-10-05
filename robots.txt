@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://rothschildt.github.io/-96eyz-site/sitemap.xml

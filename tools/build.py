@@ -59,7 +59,7 @@ WORDMARK = ('<span class="wm-a">MAW<span class="o" aria-hidden="true"></span>N</
             '      <span class="wm-b">freedom arts</span>')
 
 
-def head(title, desc, p, path, theme='#0b0b0b', extra=''):
+def head(title, desc, p, path, theme='#0b0b0b', extra='', canonical=None):
     return f'''<!doctype html>
 <html lang="en">
 <head>
@@ -74,20 +74,23 @@ def head(title, desc, p, path, theme='#0b0b0b', extra=''):
   <meta property="og:url" content="{SITE}{path}">
   <meta property="og:image" content="{SITE}assets/img/og.jpg">
   <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="{canonical or SITE + path}">
   <link rel="icon" href="{p}assets/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="{p}assets/favicon-192.png" type="image/png" sizes="192x192">
+  <link rel="apple-touch-icon" href="{p}assets/apple-touch-icon.png">
   <link rel="preload" href="{p}assets/fonts/eb-garamond.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="{p}assets/css/site.css">{extra}
 </head>'''
 
 
-def page(slug, title, desc, body, body_class='', depth=1, path=None):
+def page(slug, title, desc, body, body_class='', depth=1, path=None, canonical=None):
     p = '../' * depth
     current = ' aria-current="page"'
     nav = '\n      '.join(f'<a href="{p}{s}/"{current if s == slug else ""}>{label}</a>' for s, label in NAV)
     paper = 'paper' in body_class
     cls = f' class="{body_class}"' if body_class else ''
     full_title = f'{title} · Mawon Freedom Arts'
-    return head(full_title, desc, p, path or f'{slug}/', '#f2f0eb' if paper else '#0b0b0b') + f'''
+    return head(full_title, desc, p, path or f'{slug}/', '#f2f0eb' if paper else '#0b0b0b', canonical=canonical) + f'''
 <body{cls}>
   <a class="skip" href="#main">Skip to content</a>
 
@@ -141,6 +144,31 @@ DRUM_LINKS = [
 ]
 
 
+def structured_data():
+    data = {
+        '@context': 'https://schema.org',
+        '@graph': [
+            {'@type': 'WebSite', '@id': SITE + '#website', 'name': 'Mawon Freedom Arts', 'url': SITE,
+             'publisher': {'@id': SITE + '#org'}},
+            {'@type': 'Organization', '@id': SITE + '#org', 'name': 'Mawon Freedom Arts', 'url': SITE,
+             'logo': SITE + 'assets/favicon-192.png', 'image': SITE + 'assets/img/og.jpg',
+             'description': 'A multimedia house for sound, word and image, founded by Roth$child. Home of 96 EYZ.',
+             'founder': {'@id': SITE + '#person'},
+             'sameAs': [INSTAGRAM, INSTAGRAM_PHOTO, X, LINKTREE, SUBSTACK]},
+            {'@type': 'Organization', '@id': SITE + '#96eyz', 'name': '96 EYZ', 'url': SITE + 'music/',
+             'logo': SITE + 'assets/img/96eyz-emblem.png', 'parentOrganization': {'@id': SITE + '#org'}},
+            {'@type': 'Person', '@id': SITE + '#person', 'name': 'Rothschild J. Toussaint',
+             'alternateName': ['Roth$child', 'Rothschild Toussaint'], 'url': SITE + 'about/',
+             'image': SITE + 'assets/img/portrait.jpg', 'jobTitle': TAGLINE.replace(' · ', ', '),
+             'worksFor': {'@id': SITE + '#org'},
+             'sameAs': [INSTAGRAM, INSTAGRAM_PHOTO, X, SPOTIFY, SOUNDCLOUD, SUBSTACK, LINKTREE]},
+        ],
+    }
+    return ('  <script type="application/ld+json">\n'
+            + json.dumps(data, ensure_ascii=False, indent=2).replace('</', '<\\/')
+            + '\n  </script>')
+
+
 def home(p=''):
     links = '\n    '.join(
         f'<a href="{p}{s}/" data-drum="{i}" data-scale="{scale}" data-freq="{freq}"{extra}>'
@@ -150,7 +178,7 @@ def home(p=''):
     desc = ('Mawon Freedom Arts is a multimedia house for sound, word and image, founded by Roth$child. '
             'Home of 96 EYZ.')
     return head('Mawon Freedom Arts', desc, p, '', '#070707',
-                f'\n  <link rel="modulepreload" href="{p}assets/vendor/three.min.js">') + f'''
+                f'\n  <link rel="modulepreload" href="{p}assets/vendor/three.min.js">\n{structured_data()}') + f'''
 <body class="home">
   <a class="skip" href="#drums">Skip to the menu</a>
 
@@ -536,8 +564,16 @@ for slug, title, desc, body, cls in PAGES:
     write(f'{slug}/index.html', page(slug, title, desc, body, cls))
 
 for piece in PIECES:
-    canonical = f'\n  <link rel="canonical" href="{piece["substack_url"]}">'
-    text = page('writing', piece['title'].rstrip('.'), piece['subtitle'], reading(piece), 'paper', depth=2,
-                path=f'writing/{piece["slug"]}/')
-    text = text.replace('\n</head>', canonical + '\n</head>', 1)
-    write(f'writing/{piece["slug"]}/index.html', text)
+    # the Substack post is the original, so search engines are pointed there
+    write(f'writing/{piece["slug"]}/index.html',
+          page('writing', piece['title'].rstrip('.'), piece['subtitle'], reading(piece), 'paper', depth=2,
+               path=f'writing/{piece["slug"]}/', canonical=piece['substack_url']))
+
+# ---------------------------------------------------------------- for search engines
+
+SITEMAP = [''] + [f'{s}/' for s, _ in NAV] + [f'writing/{piece["slug"]}/' for piece in PIECES]
+write('sitemap.xml', '<?xml version="1.0" encoding="UTF-8"?>\n'
+      '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+      + ''.join(f'  <url><loc>{SITE}{u}</loc></url>\n' for u in SITEMAP)
+      + '</urlset>\n')
+write('robots.txt', f'User-agent: *\nAllow: /\n\nSitemap: {SITE}sitemap.xml\n')
